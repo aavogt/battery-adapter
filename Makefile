@@ -1,0 +1,30 @@
+SHELL = /bin/bash
+OUT = $(shell basename `pwd`)
+watch:
+	ls *.hs | entr ghcid -r &
+	make preview
+	ls *.step Makefile | entr make $(OUT).gcode
+
+$(OUT).gcode: $(OUT).step Makefile
+	prusa-slicer -g --load config.ini --duplicate 8 $(OUT).step --output $(OUT).gcode
+
+$(OUT).cabal: package.yaml
+	(which hpack || cabal install hpack) && hpack
+	touch $@
+
+$(OUT).step: main.hs $(OUT).cabal
+	cabal run
+
+.PHONY: preview sdcard watch clean
+
+preview: $(OUT).step $(OUT).gcode
+		pgrep f3d || f3d --watch $< &
+		gcodeviewer $(OUT).gcode &
+
+clean:
+	rm -rf $(OUT).{cabal,step,gcode} dist-newstyle/ cabal.project.local*
+
+DEST := /run/media/aavogt/E5S1
+
+sdcard: $(OUT).gcode
+		[ -e $(DEST) ] && cp $(OUT).gcode $(DEST)/ && udiskie-umount $(DEST)

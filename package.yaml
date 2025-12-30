@@ -1,0 +1,9 @@
+dependencies:
+  - base
+  - waterfall-cad
+  - linear
+  - process
+
+executable:
+  main:
+    main.hs
