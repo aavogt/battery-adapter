@@ -8,3 +8,5 @@ dependencies:
 executable:
   main:
     main.hs
+  source-dirs:
+    - .
