@@ -3,6 +3,7 @@ dependencies:
   - waterfall-cad
   - linear
   - process
+  - lens
 
 executable:
   main:
