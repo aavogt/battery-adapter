@@ -20,11 +20,9 @@ $(OUT).step: main.hs $(OUT).cabal
 
 .PHONY: preview sdcard watch clean
 
-view_step: $(OUT).step
-		pgrep f3d || f3d --watch $< &
-
-view_gcode: $(OUT).gcode
-		gcodeviewer $<
+view: $(OUT).step $(OUT).gcode
+		pgrep f3d || f3d --watch $(OUT).step &
+		gcodeviewer $(OUT).gcode
 
 clean:
 	rm -rf $(OUT).{cabal,step,gcode} dist-newstyle/ cabal.project.local*
