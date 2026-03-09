@@ -1,8 +1,11 @@
 SHELL = /bin/bash
 OUT = $(shell basename `pwd`)
 watch:
+	ulimit -v 1000000
+	set -m
+	trap 'pkill -P $$$$' EXIT
 	ls *.hs | entr ghcid -r &
-	make preview
+	make view_step view_gcode
 	ls *.step Makefile | entr make $(OUT).gcode
 
 $(OUT).gcode: $(OUT).step Makefile
@@ -17,9 +20,11 @@ $(OUT).step: main.hs $(OUT).cabal
 
 .PHONY: preview sdcard watch clean
 
-preview: $(OUT).step $(OUT).gcode
+view_step: $(OUT).step
 		pgrep f3d || f3d --watch $< &
-		gcodeviewer $(OUT).gcode &
+
+view_gcode: $(OUT).gcode
+		gcodeviewer $<
 
 clean:
 	rm -rf $(OUT).{cabal,step,gcode} dist-newstyle/ cabal.project.local*
