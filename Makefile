@@ -4,12 +4,13 @@ watch:
 	ulimit -v 1000000
 	set -m
 	trap 'pkill -P $$$$' EXIT
-	ls *.hs | entr ghcid -r &
-	make view_step view_gcode
-	ls *.step Makefile | entr make $(OUT).gcode
+	pgrep f3d || f3d --watch $(OUT).step &
+	ls config.ini $(OUT)*.step | entr make $(OUT).gcode &
+	ghcid -r &
+	gcodeviewer $(OUT).gcode
 
-$(OUT).gcode: $(OUT).step Makefile
-	prusa-slicer -g --load config.ini --duplicate 8 $(OUT).step --output $(OUT).gcode
+$(OUT).gcode: $(OUT).step config.ini
+	prusa-slicer -g --load config.ini --output $(OUT).gcode -m $(OUT)*.step
 
 $(OUT).cabal: package.yaml
 	(which hpack || cabal install hpack) && hpack
