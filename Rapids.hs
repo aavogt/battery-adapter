@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE BlockArguments #-}
 
 -- | cascade, waterfall, rapids
 -- simplify waterfall-cad expressions by complicating the types and type errors
@@ -12,6 +13,25 @@ import GHC.TypeLits
 import Linear hiding (rotate)
 import Waterfall hiding (mirror, rotate, scale, translate)
 import qualified Waterfall as W
+
+import System.Directory
+import System.FilePath
+import Data.IORef
+import Control.Applicative
+
+-- | @main = do write <- mkStepWriter; write solid1; write solid2@
+-- writes solid1 to $(basename `pwd`).step and solid2 to $(basename `pwd`)0.step
+--
+-- so the template needs less renaming
+mkStepWriter :: IO (Solid -> IO FilePath)
+mkStepWriter = do
+    count <- newIORef Nothing
+    prefix <- takeBaseName <$> getCurrentDirectory
+    return \solid -> do
+      count <- atomicModifyIORef count (\a -> (succ <$> a <|> Just 0, a))
+      let out = prefix ++ maybe "" show count ++ ".step"
+      writeSTEP out solid
+      return out
 
 -- | `t` is shorthand for 'translate' applied to different objects:
 --
