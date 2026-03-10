@@ -1,7 +1,8 @@
 import Rapids
 
 main = do
-  writeSTEP "battery-adapter.step" $ flange + sleeve - hole
+  write <- mkStepWriter
+  write $ flange + sleeve - hole
 
 {- ORMOLU_DISABLE -}
 hole = scale (a / 2) (a / 2) (10 + h) centeredCylinder
