@@ -5,12 +5,12 @@ watch:
 	set -m
 	trap 'pkill -P $$$$' EXIT
 	pgrep f3d || f3d --watch $(OUT).step &
-	ls config.ini $(OUT)*.step | entr make $(OUT).gcode &
+	ls Makefile config.ini $(OUT)*.step | entr make $(OUT).gcode &
 	ghcid -r &
 	gcodeviewer $(OUT).gcode
 
-$(OUT).gcode: $(OUT).step config.ini
-	prusa-slicer -g --load config.ini --output $(OUT).gcode -m $(OUT)*.step
+$(OUT).gcode: $(OUT).step config.ini Makefile
+	prusa-slicer -g --load config.ini --output $(OUT).gcode -m $(OUT)*.step 
 
 $(OUT).cabal: package.yaml
 	(which hpack || cabal install hpack) && hpack
