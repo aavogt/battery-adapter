@@ -87,7 +87,7 @@ class Scale a where
   scale :: a
 
 instance {-# INCOHERENT #-} (v ~ V3, amt ~ Double, a ~ Solid, a' ~ a) => Scale (E v -> amt -> a -> a') where
-  scale (E e) amt a = W.scale (0 & e .~ amt) a
+  scale (E e) amt a = W.scale (1 & e .~ amt) a
 
 instance {-# OVERLAPPABLE #-} (x ~ Double, y ~ Double, z ~ Double, a ~ Solid, a' ~ a) => Scale (x -> y -> z -> a -> a') where
   scale x y z a = W.scale (V3 x y z) a
