@@ -10,7 +10,7 @@ watch:
 	gcodeviewer $(OUT).gcode
 
 $(OUT).gcode: $(OUT).step config.ini Makefile
-	prusa-slicer -g --load config.ini --output $(OUT).gcode -m $(OUT)*.step 
+	prusa-slicer -g --load config.ini --duplicate 1 --output $(OUT).gcode -m $(OUT)*.step
 
 $(OUT).cabal: package.yaml
 	(which hpack || cabal install hpack) && hpack
