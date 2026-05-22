@@ -3,7 +3,7 @@ OUT = $(shell basename `pwd`)
 watch:
 	ulimit -v 1000000
 	set -m
-	trap 'pkill -P $$$$' EXIT
+	trap 'pkill -P $$$$' EXIT INT TERM
 	pgrep f3d || f3d --watch $(OUT).step &
 	ls Makefile config.ini $(OUT)*.step | entr make $(OUT).gcode &
 	ghcid -r &
