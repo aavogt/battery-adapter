@@ -1,0 +1,5 @@
+packages: .
+source-repository-package
+  type: git
+  location: https://github.com/aavogt/rapids.git
+  tag: 5287ebe21146d98a64316cdedd4b9004b67ca810

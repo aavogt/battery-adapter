@@ -1,11 +1,8 @@
 dependencies:
   - base
+  - rapids
   - waterfall-cad
   - linear
-  - process
-  - lens
-  - directory
-  - filepath
 
 executable:
   main:
