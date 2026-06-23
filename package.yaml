@@ -4,6 +4,9 @@ dependencies:
   - waterfall-cad
   - linear
 
+default-extensions:
+  - QuasiQuotes
+
 executable:
   main:
     main.hs

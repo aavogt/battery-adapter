@@ -1,4 +1,13 @@
 import Rapids
+    ( centeredCylinder,
+      centeredCube,
+      mkStepWriter,
+      iniVal,
+      Scale(scale),
+      Translate(translate) )
+
+-- read ./config.ini
+[iniVal| extrusion_width layer_height first_layer_height |]
 
 main = do
   write <- mkStepWriter
@@ -11,4 +20,4 @@ sleeve = translate 0 0 (h / 2) $ scale (a / 2 + t) (a / 2 + t) h centeredCylinde
 a = 14.5
 b = 26
 h = 5
-t = 2 
+t = 2 * extrusion_width
