@@ -4,7 +4,9 @@ import Rapids
       mkStepWriter,
       iniVal,
       Scale(scale),
-      Translate(translate) )
+      Translate(translate),
+      ez,
+      )
 
 -- read ./config.ini
 [iniVal| extrusion_width layer_height first_layer_height |]
@@ -16,7 +18,7 @@ main = do
 {- ORMOLU_DISABLE -}
 hole = scale (a / 2) (a / 2) (10 + h) centeredCylinder
 flange = scale b b t centeredCube
-sleeve = translate 0 0 (h / 2) $ scale (a / 2 + t) (a / 2 + t) h centeredCylinder
+sleeve = translate ez (h / 2) $ scale (a / 2 + t) (a / 2 + t) h centeredCylinder
 a = 14.5
 b = 26
 h = 5
