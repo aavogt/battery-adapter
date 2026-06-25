@@ -1,3 +1,4 @@
+{-# LANGUAGE TemplateHaskell #-}
 import Rapids
 
 -- read ./config.ini
@@ -5,7 +6,7 @@ import Rapids
 
 main = do
   write <- mkStepWriterColor
-  write $ (yellow flange + green sleeve - blue hole) * scale a a h (darkpurple unitSphere)
+  write $ ($yellow flange + $green sleeve - $blue hole) * scale a a (h + 1) ($darkbrown unitSphere)
 
 {- ORMOLU_DISABLE -}
 hole = scale (a / 2) (a / 2) (10 + h) centeredCylinder
