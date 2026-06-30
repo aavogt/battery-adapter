@@ -1,10 +1,14 @@
+# https://github.com/aavogt/OCCT_XCAF_FacePicker
+VIEWER = OCCT_XCAF_FacePicker
+# VIEWER = f3d --watch
+
 SHELL = /bin/bash
 OUT = $(shell basename `pwd`)
 watch:
 	ulimit -v 1000000
 	set -m
 	trap 'pkill -P $$$$' EXIT INT TERM
-	pgrep f3d || f3d --watch $(OUT).step &
+	pgrep $(word 1, VIEWER) || $(VIEWER) $(OUT).step &
 	ls Makefile config.ini $(OUT)*.step | entr make $(OUT).gcode &
 	ghcid -r &
 	gcodeviewer $(OUT).gcode
@@ -22,7 +26,7 @@ $(OUT).step: main.hs $(OUT).cabal
 .PHONY: preview sdcard watch clean
 
 view: $(OUT).step $(OUT).gcode
-		pgrep f3d || f3d --watch $(OUT).step &
+		pgrep $(word 1, VIEWER) || $(VIEWER) $(OUT).step &
 		gcodeviewer $(OUT).gcode
 
 clean:
