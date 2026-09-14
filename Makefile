@@ -32,7 +32,10 @@ view: $(OUT).step $(OUT).gcode
 clean:
 	rm -rf $(OUT).{cabal,step,gcode} dist-newstyle/ cabal.project.local*
 
-DEST := /run/media/aavogt/E5S1
+DEST := /run/media/aavogt/e5s1
+
+GIT_FIRST_WORD = $(shell git log -1 --pretty=%s | cut -d' ' -f1)
 
 sdcard: $(OUT).gcode
-		[ -e $(DEST) ] && cp $(OUT).gcode $(DEST)/ && udiskie-umount $(DEST)
+	# prompt to git commit -a -m ??
+	[ -e $(DEST) ] && cp $(OUT).gcode $(DEST)/$(GIT_FIRST_WORD).gcode && udiskie-umount $(DEST)
