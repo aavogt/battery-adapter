@@ -9,9 +9,9 @@ watch:
 	set -m
 	trap 'pkill -P $$$$' EXIT INT TERM
 	pgrep $(word 1, VIEWER) || $(VIEWER) $(OUT).step &
-	ls Makefile config.ini $(OUT)*.step | entr make $(OUT).gcode &
-	ghcid -r &
-	gcodeviewer $(OUT).gcode
+	# ls Makefile config.ini $(OUT)*.step | entr make $(OUT).step &
+	ghcid -r
+	# gcodeviewer $(OUT).gcode
 
 $(OUT).gcode: $(OUT).step config.ini Makefile
 	prusa-slicer -g --load config.ini --duplicate 1 --output $(OUT).gcode -m $(OUT)*.step
