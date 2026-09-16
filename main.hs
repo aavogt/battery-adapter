@@ -1,12 +1,13 @@
 {-# LANGUAGE TemplateHaskell #-}
 import Rapids
+import Rapids.SVG
 
 -- read ./config.ini
 [iniVal| extrusion_width layer_height first_layer_height |]
 
 main = do
   write <- mkStepWriterColor
-  write $ ($yellow flange + $green sleeve - $blue hole) * scale a a (h + 1) ($darkbrown unitSphere)
+  write $ ($yellow flange + $green sleeve - $blue hole) * scale a (h + 1) ($darkbrown unitSphere)
 
 {- ORMOLU_DISABLE -}
 hole = scale (a / 2) (a / 2) (10 + h) centeredCylinder
