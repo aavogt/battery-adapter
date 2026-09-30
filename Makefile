@@ -10,7 +10,7 @@ watch:
 	trap 'pkill -P $$$$' EXIT INT TERM
 	pgrep $(word 1, VIEWER) || $(VIEWER) $(OUT).step &
 	# ls Makefile config.ini $(OUT)*.step | entr make $(OUT).step &
-	ghcid -r
+	ghcid -r -s colorAttrsMapReset
 	# gcodeviewer $(OUT).gcode
 
 $(OUT).gcode: $(OUT).step config.ini Makefile
