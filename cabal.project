@@ -2,5 +2,5 @@ packages: .
 source-repository-package
   type: git
   location: https://github.com/aavogt/rapids.git
-  tag: dee4d0694b1a4ae94f38968feecc698ff6334db7
+  tag: 46f6d27587b511f52e1425f82f0c91eece111cb3
   subdir: . rapids-svg
